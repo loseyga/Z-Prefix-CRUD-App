@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import { Header, Home, Inventory, Item, SignIn, SignUp } from './components';
 
+import { typography } from '@mui/system';
+
 export const AppContext = createContext();
 
 
@@ -53,6 +55,8 @@ const AppWrapper = styled.div`
   display: grid;
   grid-template-rows: 10% 90%;
   background-color: #ffffff;
+  font-family: typography;
+  font-size: large;
 `;
 
 const HeaderContainer = styled.div`
