@@ -6,7 +6,7 @@ exports.seed = async function (knex, Promise) {
     .then(function () {
         // Generate fake data using Faker
         const numRowsToSeed = 10; // Number of rows you want to insert
-        const fakeData = [];
+        const fakeData = [{first_name: 'Gabriel', last_name: 'Losey', user_name: 'loseyga', password: '1234'},];
         for (let i = 0; i < numRowsToSeed; i++) {
             let first_name = faker.person.firstName();
             let last_name = faker.person.lastName();
