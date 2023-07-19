@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components';
 import { AppContext } from '../App'
 
-import { IconButton } from '@mui/material';
+import { IconButton, Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -12,6 +12,7 @@ export default function Item() {
     const { item_id } = useParams();
 
     const [item, setItem] = useState(null);
+    const [editMode, setEditMode] = useState(false);
 
     useEffect(() => {
         fetchItem();
@@ -28,6 +29,16 @@ export default function Item() {
         }
     };
 
+    const handleEdit = () => {
+        setEditMode(true);
+        console.log(editMode);
+    }
+
+    const handleSubmitChanges = () => {
+        setEditMode(false);
+        console.log(editMode);
+    }
+
     if (item === null) {
         return <p>Loading...</p>;
     }
@@ -37,7 +48,7 @@ export default function Item() {
             <ItemContainer>
                 {isVerified ?
                     <ButtonContainer>
-                        <IconButton aria-label="Edit">
+                        <IconButton aria-label="Edit" onClick={handleEdit}>
                             <EditIcon />
                         </IconButton>
                         <IconButton aria-label="Delete">
@@ -47,13 +58,38 @@ export default function Item() {
                     :
                     <></>
                 }
+                {!editMode ? 
                 <h1>{item[0].item_name}</h1>
-                <h3>Description: {item[0].description}</h3>
-                <h3>Quantity: {item[0].quantity}</h3>
-                <h3>Last edited by: {item[0].user_name}</h3>
+                :
+                <input type='text' id='itemName' defaultValue={item[0].item_name}></input>
+                }
+                <h3>Description:</h3>
+                {!editMode ? 
+                <p>{item[0].description}</p>
+                :
+                <input type='text' id='itemDescription' defaultValue={item[0].description}></input>
+                }
+                <h3>Quantity: </h3>
+                {!editMode ? 
+                <p>{item[0].quantity}</p>
+                :
+                <input type='text' id='itemQuantity' defaultValue={item[0].quantity}></input>
+                }
+                <h3>Last edited by: </h3>
+                <p>{item[0].user_name}</p>
+                {!editMode ? 
+                <></>
+                :
+                <Button id="submitChangesButton" style={styledButton} variant="contained" onClick={handleSubmitChanges}>Submit Changes</Button>
+                }
             </ItemContainer>
         </ItemWrapper>
     )
+}
+
+const styledButton = {
+    border: "2px solid #ffffff",
+    backgroundColor: "#0844f4",
 }
 
 const ItemWrapper = styled.div`

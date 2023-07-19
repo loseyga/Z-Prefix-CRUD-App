@@ -3,7 +3,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import { Header, Home, Inventory, Item, SignIn, SignUp } from './components';
 
-import { typography } from '@mui/system';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 export const AppContext = createContext();
 
@@ -55,7 +58,7 @@ const AppWrapper = styled.div`
   display: grid;
   grid-template-rows: 10% 90%;
   background-color: #ffffff;
-  font-family: typography;
+  font-family: roboto;
   font-size: large;
 `;
 
