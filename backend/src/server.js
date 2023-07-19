@@ -87,27 +87,32 @@ app.post('/items', function(req, res) {
 });
 
 app.get('/items', function(req, res) {
+    const user_account_id = parseInt(req.query.user_account_id);
+    if (isNaN(user_account_id)) {
+        return res.status(400).json({
+            message: 'Invalid user_account_id provided',
+        });
+    }
     knex('item')
-        .select('*')
-        .then(data => res.status(200).json(data))
-        .catch(err =>
-        res.status(404).json({
-            message:
-            'An error occurred while fetching the items'
-        })
+        .where('user_account_id', user_account_id)
+        .select()
+        .then((data) => res.status(200).json(data))
+        .catch((err) =>
+            res.status(500).json({
+                message: 'An error occurred while fetching the items',
+                error: err,
+            })
         );
 });
 
-app.get('/items', function(req, res) {
-    const user_account_id = req.query.user_account_id;
+app.get('/inventory', function(req, res) {
     knex('item')
-        .where('user_account_id', user_account_id)
         .select()
         .then((data) => res.status(200).json(data)
         )
         .catch((err) =>
             res.status(500).json({
-                message: 'An error occurred while fetching the items',
+                message: 'An error occurred while fetching the item',
                 error: err,
             })
         );
