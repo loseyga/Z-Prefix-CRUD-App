@@ -1,6 +1,5 @@
 import { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useCookies } from "react-cookie";
 import styled from 'styled-components';
 import { AppContext } from '../App';
 
@@ -21,7 +20,6 @@ export default function SignIn() {
     const [showPassword, setShowPassword] = useState(false);
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
-    const [cookie, setCookie] = useCookies(["user"])
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -29,50 +27,45 @@ export default function SignIn() {
         event.preventDefault();
     };
 
-    if(cookie.user){
-        let cookiedata = cookie.user
-        setFirstName(cookiedata[0].firstname);
-        setLastName(cookiedata[0].lastname);
-        setUser(Number(cookiedata[0].id));
-        setIsVerified(true);
-        navigate("/inventory")
-    }
-
     const handleSubmit = async e => {
         e.preventDefault();
-        let temp_user = document.getElementById('user_name').value;
+        let temp_user_name = document.getElementById('user_name').value;
         let temp_password = document.getElementById('password').value;
-        setUserName(temp_user)
+        setUserName(temp_user_name)
         setPassword(temp_password)
-        SignInUser(temp_user, temp_password);
+        SignInUser(temp_user_name, temp_password);
     }
 
     
-        async function SignInUser(username, password) {
-        var temp = {}
-        fetch('http://localhost:3001/users',{
-            method:"POST",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"user":username, "pw":password})
+    async function SignInUser(user_name, password) {
+    fetch('http://localhost:3001/authenticate',{
+        method:"POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ "user_name": user_name, "password": password })
+    })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                return res.json()
+                    .then(data => {throw new Error(data.error)});
+            }
         })
-            .then(res => res.json())
-            .then(data => {
+        .then(data => {
             console.log('data: ', data)
-            setFirstName(data[0].firstname);
-            setLastName(data[0].lastname);
+            setFirstName(data[0].first_name);
+            setLastName(data[0].last_name);
             setUser(Number(data[0].id));
             setIsVerified(true);
-            navigate("/inventory")
-            setCookie("user", JSON.stringify(data), {
-                maxAge: 120, // Expires after 5 min
-            })
-            })
-            .catch(err =>{
+            navigate("/inventory");
+        })
+        .catch(err =>{
+            window.alert(err.message);
             document.getElementById("user_name").value='';
             document.getElementById("password").value='';
-            navigate("/sign-in")
-            })
-        }
+            navigate("/sign-in");
+        })
+    }
 
     return (
         <>
@@ -81,7 +74,7 @@ export default function SignIn() {
                     <Title>Sign Into Your Account</Title>
                     <p>Don't have an account yet? <Link to="/sign-up">Sign Up</Link></p>
                     <FormControl sx={{ml:2, mr:2, my:1}} variant="outlined">
-                        <InputLabel htmlFor="user_name">Username</InputLabel>
+                        <InputLabel htmlFor="user_name">User Name</InputLabel>
                         <OutlinedInput
                         id="user_name"
                         startAdornment={
@@ -89,7 +82,7 @@ export default function SignIn() {
                             <AccountCircle />
                             </InputAdornment>
                             }
-                            label="Username"
+                            label="User Name"
                         />
                     </FormControl>
                     <FormControl sx={{ml:2, mr:2, my:1}} variant="outlined">
@@ -128,6 +121,10 @@ const styledButton = {
     backgroundColor: "#0844f4",
 }
 
+const ErrorMessage = styled.div`
+color: red;
+margin-top: 10px;
+`
 const Title= styled.h1`
 margin: 20px;
 `

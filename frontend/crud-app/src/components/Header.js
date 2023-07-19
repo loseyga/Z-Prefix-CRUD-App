@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { AppContext } from '../App'
 import { Button } from '@mui/material';
 
+import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
+
 export default function Header() {
     const { isVerified, setIsVerified, firstName, setUser, setFirstName, setLastName } = useContext(AppContext);
     const navigate = useNavigate();
@@ -21,13 +23,13 @@ export default function Header() {
         <>
             {isVerified ?
                 <HeaderWrapper id="Header">
-                    <LogoButton onClick={()=>navigate("/")}><HeaderLogo src={'../../public/inventory_logo.png'}/></LogoButton>
+                    <LogoButton onClick={()=>navigate("/")}><ProductionQuantityLimitsIcon style={{fontSize: "xxx-large"}} /></LogoButton>
                     <Greeting>Welcome, {firstName}!</Greeting>
                     <Button id="signOutButton" style={buttonStyle} variant="contained" onClick={handleClickSignOut}>Sign Out</Button>
                 </HeaderWrapper>
                 :
                 <HeaderWrapper id="Header">
-                    <LogoButton onClick={()=>navigate("/")}><HeaderLogo src={'../../public/inventory_logo.png'}/></LogoButton>
+                    <LogoButton onClick={()=>navigate("/")}><ProductionQuantityLimitsIcon style={{fontSize: "xxx-large"}} /></LogoButton>
                     <Greeting>Thanks for visiting!</Greeting>
                     <Button id="signInButton" style={buttonStyle} variant="contained" onClick={()=>navigate("/sign-in")}>Sign In</Button>
                 </HeaderWrapper>

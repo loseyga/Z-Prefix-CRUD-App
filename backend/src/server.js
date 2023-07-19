@@ -1,26 +1,36 @@
 const express = require('express');
 
 const app = express();
+const cors =require('cors');
 const PORT = process.env.PORT || 3001;
 const knex = require('knex')(require('../knexfile.js')[process.env.NODE_ENV||'development']);
 
 app.use(express.json());
+app.use(cors());
 
 app.post('/users', function(req, res) {
     const { first_name, last_name, user_name, password } = req.body;
     knex('user_account')
-        .insert({ first_name, last_name, user_name, password })
-        .returning('id')
-        .then((ids) =>
-            res.status(201).json({
-            message: 'Account created successfully',
-            user_account_id: ids[0].id
-            })
-        )
+        .select('id')
+        .where('user_name', user_name)
+        .then((existingUsers) => {
+            if (existingUsers.length > 0) {
+                return res.status(409).json({ error: 'User name is already taken' });
+            }
+            return knex('user_account')
+                .insert({ first_name, last_name, user_name, password })
+                .returning('id')
+                .then((ids) =>
+                    res.status(201).json({
+                        message: 'Account created successfully',
+                        user_account_id: ids[0]
+                    })
+                );
+        })
         .catch((err) =>
             res.status(500).json({
-            message: 'An error occurred while creating the account',
-            error: err,
+                message: 'An error occurred while creating the account',
+                error: err,
             })
         );
 });
@@ -35,6 +45,26 @@ app.get('/users', function(req, res) {
             'An error occurred while fetching the accounts'
         })
         );
+});
+
+app.post('/authenticate', (req, res) => {
+    const { user_name, password } = req.body;
+    knex('user_account')
+    .select('id' , 'first_name', 'last_name')
+    .where('user_name', user_name)
+    .where('password', password)
+    .then((data) => {
+        if (data.length === 0) {
+            res.status(401).json({ error: "Invalid sign in credentials" });
+        }
+        res.status(200).json(data);
+    })
+    .catch((err) =>
+        res.status(500).json({
+        message: 'An error occurred while fetching the authentication credentials',
+        error: err,
+        })
+    );
 });
 
 app.post('/items', function(req, res) {
