@@ -23,13 +23,13 @@ export default function Header() {
                 <HeaderWrapper id="Header">
                     <LogoButton onClick={()=>navigate("/")}><HeaderLogo src={'../../public/inventory_logo.png'}/></LogoButton>
                     <Greeting>Welcome, {firstName}!</Greeting>
-                    <Button style={buttonStyle} variant="contained" onClick={handleClickSignOut}>Sign Out</Button>
+                    <Button id="signOutButton" style={buttonStyle} variant="contained" onClick={handleClickSignOut}>Sign Out</Button>
                 </HeaderWrapper>
                 :
                 <HeaderWrapper id="Header">
                     <LogoButton onClick={()=>navigate("/")}><HeaderLogo src={'../../public/inventory_logo.png'}/></LogoButton>
                     <Greeting>Thanks for visiting!</Greeting>
-                    <Button style={buttonStyle} variant="contained" onClick={()=>navigate("/sign-in")}>Sign In</Button>
+                    <Button id="signInButton" style={buttonStyle} variant="contained" onClick={()=>navigate("/sign-in")}>Sign In</Button>
                 </HeaderWrapper>
             }
         </>

@@ -1,10 +1,7 @@
-import { useState, useEffect, useContext, createContext } from 'react';
-import { BrowserRouter, Route, Routes, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components';
-import { AppContext } from '../App'
 
 export default function Home() {
-    const { testStr } = useContext(AppContext);
     return (
         <HomeWrapper>
             <WelcomeWrapper>
@@ -28,7 +25,7 @@ export default function Home() {
                         you can continue to the inventory list by clicking <Link to="/inventory">here</Link>.
                     </p>
                     <p>
-                        If you would ever like to return to this page, you can click the StockSense
+                        If you ever want to return to this page, you can click the StockSense
                         icon in the left of the header.
                     </p>
                     <p>Thank you for using StockSense, enjoy!</p>
