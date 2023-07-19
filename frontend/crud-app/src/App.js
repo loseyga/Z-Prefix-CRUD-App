@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext} from 'react';
+import { useState, createContext} from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import { Header, Home, Inventory, Item, SignIn, SignUp } from './components';
@@ -36,7 +36,7 @@ const App = ()=> {
                             <Route path='/inventory' element={<Inventory />} />
                             <Route path='/sign-in/*' element={<SignIn />} />
                             <Route path='/sign-up/*' element={<SignUp />} />
-                            <Route path='/inventory/:item/*' element={<Item />} />
+                            <Route path='/inventory/:item_id/*' element={<Item />} />
                             <Route path='/*' element={<Home />} /> catch all
                         </Routes>
                     </BodyContainer>

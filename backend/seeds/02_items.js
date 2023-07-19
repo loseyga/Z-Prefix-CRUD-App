@@ -9,7 +9,7 @@ exports.seed = async function (knex, Promise) {
         fakeData.push({
             user_account_id: 1,
             item_name: faker.commerce.productName(),
-            description: faker.commerce.productDescription(),
+            description: faker.lorem.paragraph(),
             quantity: faker.finance.amount({ min: 0, max: 100, dec: 0 }),
         });
         }

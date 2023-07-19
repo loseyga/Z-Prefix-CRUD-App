@@ -121,10 +121,10 @@ app.get('/inventory', function(req, res) {
 app.get('/items/:item_id', function(req, res) {
     const item_id = req.params.item_id;
     knex('item')
-        .where('id', item_id)
-        .select()
-        .then((data) => res.status(200).json(data)
-        )
+        .join('user_account', 'item.user_account_id', 'user_account.id')
+        .where('item.id', item_id)
+        .select('item.id', 'item.item_name', 'item.description', 'item.quantity', 'user_account.user_name')
+        .then((data) => res.status(200).json(data))
         .catch((err) =>
             res.status(500).json({
                 message: 'An error occurred while fetching the item',
