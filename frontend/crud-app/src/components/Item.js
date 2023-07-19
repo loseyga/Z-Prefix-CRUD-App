@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, createContext } from 'react';
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import styled from 'styled-components';
 import { AppContext } from '../App'
 
@@ -8,8 +8,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function Item() {
-    const { isVerified } = useContext(AppContext);
+    const { isVerified, user } = useContext(AppContext);
     const { item_id } = useParams();
+    const navigate = useNavigate();
 
     const [item, setItem] = useState(null);
     const [editMode, setEditMode] = useState(false);
@@ -20,7 +21,6 @@ export default function Item() {
 
     const fetchItem = async () => {
         try {
-            console.log(item_id);
             const response = await fetch(`http://localhost:3001/items/${item_id}`);
             const data = await response.json();
             setItem(data);
@@ -31,13 +31,35 @@ export default function Item() {
 
     const handleEdit = () => {
         setEditMode(true);
-        console.log(editMode);
     }
 
     const handleSubmitChanges = () => {
+        let itemName = document.getElementById('itemName').value;
+        let description = document.getElementById('description').value;
+        let quantity = document.getElementById('quantity').value;
+        handlePatch(itemName, description, quantity);
         setEditMode(false);
-        console.log(editMode);
+        navigate('/inventory')
     }
+
+    const handlePatch = (itemName, description, quantity) => {
+        return fetch(`http://localhost:3001/items/${item_id}`,{
+            method:"PATCH",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ "user_account_id": user, "item_name": itemName, "description": description, "quantity": quantity })
+        })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                return res.json().then(data => { throw new Error(data.error) });
+            }
+        })
+        .catch(err => {
+            window.alert(err.message);
+        });
+    }
+    
 
     if (item === null) {
         return <p>Loading...</p>;
@@ -67,13 +89,13 @@ export default function Item() {
                 {!editMode ? 
                 <p>{item[0].description}</p>
                 :
-                <input type='text' id='itemDescription' defaultValue={item[0].description}></input>
+                <input type='text' id='description' defaultValue={item[0].description}></input>
                 }
                 <h3>Quantity: </h3>
                 {!editMode ? 
                 <p>{item[0].quantity}</p>
                 :
-                <input type='text' id='itemQuantity' defaultValue={item[0].quantity}></input>
+                <input type='text' id='quantity' defaultValue={item[0].quantity}></input>
                 }
                 <h3>Last edited by: </h3>
                 <p>{item[0].user_name}</p>
