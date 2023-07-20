@@ -26,11 +26,11 @@ export default function Inventory() {
 
     useEffect(() => {
         fetchMyInventory();
-    }, [inventory]);
+    }, [ inventory ]);
     
     useEffect(() => {
         searchInventory();
-    }, [ searchTerm ]);
+    }, [ searchTerm, selectedInventory ]);
 
     useEffect(() => {
         setInventoryResults();
