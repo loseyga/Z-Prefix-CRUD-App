@@ -23,15 +23,25 @@ export default function Header() {
         <>
             {isVerified ?
                 <HeaderWrapper id="Header">
-                    <LogoButton onClick={()=>navigate("/")}><ProductionQuantityLimitsIcon style={{fontSize: "xxx-large"}} /></LogoButton>
+                    <LeftWrapper>
+                        <LogoButton onClick={()=>navigate("/")}><ProductionQuantityLimitsIcon style={{fontSize: "xxx-large"}} /></LogoButton>
+                        <Button id="InventoryButton" style={buttonStyle} variant="contained" onClick={()=>navigate("/Inventory")}>See Inventory</Button>
+                    </LeftWrapper>
                     <Greeting>Welcome, {firstName}!</Greeting>
-                    <Button id="signOutButton" style={buttonStyle} variant="contained" onClick={handleClickSignOut}>Sign Out</Button>
+                    <RightWrapper>
+                        <Button id="signOutButton" style={buttonStyle} variant="contained" onClick={handleClickSignOut}>Sign Out</Button>
+                    </RightWrapper>
                 </HeaderWrapper>
                 :
                 <HeaderWrapper id="Header">
-                    <LogoButton onClick={()=>navigate("/")}><ProductionQuantityLimitsIcon style={{fontSize: "xxx-large"}} /></LogoButton>
+                    <LeftWrapper>
+                        <LogoButton onClick={()=>navigate("/")}><ProductionQuantityLimitsIcon style={{fontSize: "xxx-large"}} /></LogoButton>
+                        <Button id="InventoryButton" style={buttonStyle} variant="contained" onClick={()=>navigate("/Inventory")}>See Inventory</Button>
+                    </LeftWrapper>
                     <Greeting>Thanks for visiting!</Greeting>
-                    <Button id="signInButton" style={buttonStyle} variant="contained" onClick={()=>navigate("/sign-in")}>Sign In</Button>
+                    <RightWrapper>
+                        <Button id="signInButton" style={buttonStyle} variant="contained" onClick={()=>navigate("/sign-in")}>Sign In</Button>
+                    </RightWrapper>
                 </HeaderWrapper>
             }
         </>
@@ -41,6 +51,7 @@ export default function Header() {
 const buttonStyle = {
     border: "2px solid #ffffff",
     backgroundColor: "transparent",
+    margin: "20px",
 }
 
 const HeaderWrapper = styled.div`
@@ -56,6 +67,22 @@ flex-wrap: nowrap;
 justify-content: space-between;
 align-items: center;
 font-size: large;
+`
+const LeftWrapper = styled.div`
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: flex-start;
+flex-wrap: nowrap;
+width: 25%;
+`
+const RightWrapper = styled.div`
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: flex-end;
+flex-wrap: nowrap;
+width: 25%;
 `
 const Greeting = styled.div`
 width: fit-content;

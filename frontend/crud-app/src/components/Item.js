@@ -59,13 +59,18 @@ export default function Item() {
         }
     }
 
-    const handleSubmitChanges = () => {
+    const handleSubmitChanges = async () => {
         let itemName = document.getElementById('itemName').value;
         let description = document.getElementById('description').value;
         let quantity = document.getElementById('quantity').value;
-        handlePatch(itemName, description, quantity);
-        setEditMode(false);
-        navigate('/inventory')
+
+        try {
+            await handlePatch(itemName, description, quantity);
+            await fetchItem();
+            setEditMode(false);
+        } catch (err) {
+            window.alert(err.message);
+        }
     }
 
     const handlePatch = (itemName, description, quantity) => {

@@ -68,6 +68,7 @@ app.post('/authenticate', (req, res) => {
 });
 
 app.post('/items', function(req, res) {
+    console.log(req.body);
     const { user_account_id, item_name, description, quantity } = req.body;
     knex('item')
         .insert({ user_account_id, item_name, description, quantity })
@@ -83,6 +84,7 @@ app.post('/items', function(req, res) {
             message: 'An error occurred while creating the item',
             error: err,
             })
+            
         );
 });
 
@@ -134,6 +136,7 @@ app.get('/items/:item_id', function(req, res) {
 });
 
 app.patch('/items/:item_id', function(req, res) {
+    console.log(req.body);
     const item_id = req.params.item_id;
     const { user_account_id, item_name, description, quantity } = req.body;
     knex('item')

@@ -9,12 +9,17 @@ export default function Create() {
     const { user } = useContext(AppContext);
     const navigate = useNavigate();
 
-    const handleSubmitChanges = () => {
+    const handleSubmitChanges = async () => {
         let itemName = document.getElementById('itemName').value;
         let description = document.getElementById('description').value;
         let quantity = document.getElementById('quantity').value;
-        handleCreate(itemName, description, quantity);
-        navigate('/inventory')
+
+        try {
+            await handleCreate(itemName, description, quantity);
+            navigate('/inventory');
+        } catch (err) {
+            window.alert(err.message);
+        }
     }
 
     const handleCreate = (itemName, description, quantity) => {
