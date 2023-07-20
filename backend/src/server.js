@@ -50,7 +50,7 @@ app.get('/users', function(req, res) {
 app.post('/authenticate', (req, res) => {
     const { user_name, password } = req.body;
     knex('user_account')
-    .select('id' , 'first_name', 'last_name')
+    .select()
     .where('user_name', user_name)
     .where('password', password)
     .then((data) => {
@@ -68,7 +68,6 @@ app.post('/authenticate', (req, res) => {
 });
 
 app.post('/items', function(req, res) {
-    console.log(req.body);
     const { user_account_id, item_name, description, quantity } = req.body;
     knex('item')
         .insert({ user_account_id, item_name, description, quantity })
@@ -136,7 +135,6 @@ app.get('/items/:item_id', function(req, res) {
 });
 
 app.patch('/items/:item_id', function(req, res) {
-    console.log(req.body);
     const item_id = req.params.item_id;
     const { user_account_id, item_name, description, quantity } = req.body;
     knex('item')

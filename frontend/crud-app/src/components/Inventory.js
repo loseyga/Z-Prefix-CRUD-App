@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { AppContext } from '../App'
 import styled from 'styled-components';
 
-import { Box, Button, List, ListItem, ListItemText, IconButton, FormHelperText, OutlinedInput, InputAdornment } from '@mui/material';
+import { Box, Button, List, ListItem, ListItemText, IconButton, FormHelperText, OutlinedInput, InputAdornment, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import FormControl, { useFormControl } from '@mui/material/FormControl';
 import InfoIcon from '@mui/icons-material/Info';
 import SearchIcon from '@mui/icons-material/Search';
@@ -16,7 +16,8 @@ export default function Inventory() {
     const [inventory, setInventory] = useState([]);
     const [myInventory, setMyInventory] = useState([]);
     const [results, setResults] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('')
+    const [searchTerm, setSearchTerm] = useState('');
+    const [alignment, setAlignment] = useState('myInventory');
 
     useEffect(() => {
         fetchInventory();
@@ -29,6 +30,10 @@ export default function Inventory() {
     useEffect(() => {
         searchInventory();
     }, [ searchTerm ]);
+
+    useEffect(() => {
+        setInventoryResults();
+    }, [alignment]);
 
     const fetchInventory = async () => {
         try {
@@ -51,17 +56,28 @@ export default function Inventory() {
                 console.error('Error fetching inventory', error);
             }
         } else {
-            setMyInventory(inventory);
+            setResults(inventory);
+        }
+    };
+
+    const handleChange = (event, newAlignment) => {
+        setAlignment(newAlignment);
+    };
+
+    const setInventoryResults = () => {
+        if (alignment === 'myInventory') {
+            setResults(myInventory);
+        } else {
             setResults(inventory);
         }
     };
 
     const searchInventory = () => {
-        let results = [...myInventory];
+        let searchResults = [...results];
         if (searchTerm) {
-        results = results.filter(item => item.item_name.toLowerCase().includes(searchTerm.toLowerCase()));
+        searchResults = searchResults.filter(item => item.item_name.toLowerCase().includes(searchTerm.toLowerCase()));
         }
-        setResults(results);
+        setResults(searchResults);
     };
 
     const handleFormSubmit = e => {
@@ -94,6 +110,23 @@ export default function Inventory() {
     return (
         <InventoryWrapper>
             <ResultsContainer>
+            {isVerified ?
+                    <ButtonContainer>
+                            <ToggleButtonGroup
+                            color="primary"
+                            value={alignment}
+                            exclusive
+                            onChange={handleChange}
+                            aria-label="Platform"
+                            >
+                                <ToggleButton value="inventory">Full Inventory</ToggleButton>
+                                <ToggleButton value="myInventory">My Inventory</ToggleButton>
+                            </ToggleButtonGroup>
+                            <Button id="addItemButton" style={styledButton} variant="contained" onClick={() => navigate(`/create`)}>Add a New Inventory Item</Button>
+                    </ButtonContainer>
+                    :
+                    <></>
+                }
                 <Box component="form" noValidate autoComplete="off" style={CenterItems} onSubmit={handleFormSubmit}>
                     <FormControl sx={{ width: '100%' }}>
                         <OutlinedInput
@@ -125,13 +158,6 @@ export default function Inventory() {
                         <MyFormHelperText />
                     </FormControl>
                 </Box>
-                {isVerified ?
-                    <ButtonContainer>
-                            <Button id="addItemButton" style={styledButton} variant="contained" onClick={() => navigate(`/create`)}>Add a New Inventory Item</Button>
-                    </ButtonContainer>
-                    :
-                    <></>
-                }
                 <ListContainer>
                     <List sx={{ width: '100%', height: '100%', bgcolor: 'background.paper' }}>
                         {results.map((item, index) => (
@@ -193,6 +219,6 @@ border: 4px solid #0844f4;
 `
 const ButtonContainer = styled.div`
 display: flex;
-justify-content: center;
+justify-content: space-between;
 width: 100%;
 `

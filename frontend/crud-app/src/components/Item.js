@@ -14,7 +14,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 export default function Item() {
-    const { isVerified, user } = useContext(AppContext);
+    const { isVerified, user, userName } = useContext(AppContext);
     const { item_id } = useParams();
     const navigate = useNavigate();
 
@@ -100,7 +100,7 @@ export default function Item() {
         <ItemWrapper>
             <ItemContainer>
                 <InfoContainer>
-                    {isVerified ?
+                    {userName === item[0].user_name ?
                         <ButtonContainer>
                             {editMode ? 
                                 <IconButton aria-label="Cancel" onClick={handleCancel}>

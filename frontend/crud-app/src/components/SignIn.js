@@ -9,11 +9,11 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Button, OutlinedInput, FormControl, InputLabel, IconButton, InputAdornment } from '@mui/material';
 
 export default function SignIn() {
-    const { setUser, setIsVerified, setFirstName, setLastName } = useContext(AppContext);
+    const { setUser, setIsVerified, setFirstName, setLastName, setUserName } = useContext(AppContext);
     const navigate = useNavigate();
     
     const [showPassword, setShowPassword] = useState(false);
-    const [username, setUserName] = useState('');
+    const [loginName, setLoginName] = useState('');
     const [password, setPassword] = useState('');
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -24,11 +24,11 @@ export default function SignIn() {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        let temp_user_name = document.getElementById('user_name').value;
+        let temp_login_name = document.getElementById('user_name').value;
         let temp_password = document.getElementById('password').value;
-        setUserName(temp_user_name)
+        setLoginName(temp_login_name)
         setPassword(temp_password)
-        SignInUser(temp_user_name, temp_password);
+        SignInUser(temp_login_name, temp_password);
     }
 
     
@@ -50,6 +50,7 @@ export default function SignIn() {
             setFirstName(data[0].first_name);
             setLastName(data[0].last_name);
             setUser(Number(data[0].id));
+            setUserName(data[0].user_name);
             setIsVerified(true);
             navigate("/inventory");
         })
