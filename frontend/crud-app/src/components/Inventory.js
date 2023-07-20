@@ -7,6 +7,7 @@ import { Box, Button, List, ListItem, ListItemText, IconButton, FormHelperText, 
 import FormControl, { useFormControl } from '@mui/material/FormControl';
 import InfoIcon from '@mui/icons-material/Info';
 import SearchIcon from '@mui/icons-material/Search';
+import BackspaceIcon from '@mui/icons-material/Backspace';
 
 export default function Inventory() {
     const navigate = useNavigate();
@@ -63,11 +64,21 @@ export default function Inventory() {
         setResults(results);
     };
 
-    const handleSearch = e => {
+    const handleFormSubmit = e => {
         e.preventDefault();
         let searchInput = document.getElementById('searchInput').value;
         setSearchTerm(searchInput);
     };
+
+    const handleSearch = () => {
+        let searchInput = document.getElementById('searchInput').value;
+        setSearchTerm(searchInput);
+    }
+
+    const handleClear = () => {
+        document.getElementById('searchInput').value = '';
+        handleSearch();
+    }
 
     function MyFormHelperText() {
         const { focused } = useFormControl() || {};
@@ -83,11 +94,22 @@ export default function Inventory() {
     return (
         <InventoryWrapper>
             <ResultsContainer>
-                <Box component="form" noValidate autoComplete="off" style={CenterItems} onSubmit={handleSearch}>
+                <Box component="form" noValidate autoComplete="off" style={CenterItems} onSubmit={handleFormSubmit}>
                     <FormControl sx={{ width: '100%' }}>
                         <OutlinedInput
                         id = "searchInput"
                         placeholder="Please enter text"
+                        startAdornment={
+                            <InputAdornment position="start">
+                                <IconButton
+                                onClick={handleClear}
+                                id="backspaceIconButton"
+                                edge="start"
+                                >
+                                    <BackspaceIcon />
+                                </IconButton>
+                            </InputAdornment>
+                            }
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
@@ -105,7 +127,7 @@ export default function Inventory() {
                 </Box>
                 {isVerified ?
                     <ButtonContainer>
-                            <Button id="addItemButton" style={styledButton} variant="contained" onClick={() => navigate(`/inventory/${inventory.length+1}`)}>Add a New Inventory Item</Button>
+                            <Button id="addItemButton" style={styledButton} variant="contained" onClick={() => navigate(`/create`)}>Add a New Inventory Item</Button>
                     </ButtonContainer>
                     :
                     <></>

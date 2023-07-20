@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, createContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'
 import styled from 'styled-components';
 import { AppContext } from '../App'
@@ -6,6 +6,12 @@ import { AppContext } from '../App'
 import { IconButton, Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CancelIcon from '@mui/icons-material/Cancel';
+
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 export default function Item() {
     const { isVerified, user } = useContext(AppContext);
@@ -31,6 +37,10 @@ export default function Item() {
 
     const handleEdit = () => {
         setEditMode(true);
+    }
+
+    const handleCancel = () => {
+        setEditMode(false);
     }
 
     const handleClickDelete = async () => {
@@ -84,37 +94,46 @@ export default function Item() {
     return (
         <ItemWrapper>
             <ItemContainer>
-                {isVerified ?
-                    <ButtonContainer>
-                        <IconButton aria-label="Edit" onClick={handleEdit}>
-                            <EditIcon />
-                        </IconButton>
-                        <IconButton aria-label="Delete" onClick={handleClickDelete}>
-                            <DeleteIcon />
-                        </IconButton>
-                    </ButtonContainer>
+                <InfoContainer>
+                    {isVerified ?
+                        <ButtonContainer>
+                            {editMode ? 
+                                <IconButton aria-label="Cancel" onClick={handleCancel}>
+                                    <CancelIcon />
+                                </IconButton>
+                                :
+                                <></>
+                            }
+                            <IconButton aria-label="Edit" onClick={handleEdit}>
+                                <EditIcon />
+                            </IconButton>
+                            <IconButton aria-label="Delete" onClick={handleClickDelete}>
+                                <DeleteIcon />
+                            </IconButton>
+                        </ButtonContainer>
+                        :
+                        <></>
+                    }
+                    {!editMode ? 
+                    <ItemName>{item[0].item_name}</ItemName>
                     :
-                    <></>
-                }
-                {!editMode ? 
-                <h1>{item[0].item_name}</h1>
-                :
-                <input type='text' id='itemName' defaultValue={item[0].item_name}></input>
-                }
-                <h3>Description:</h3>
-                {!editMode ? 
-                <p>{item[0].description}</p>
-                :
-                <input type='text' id='description' defaultValue={item[0].description}></input>
-                }
-                <h3>Quantity: </h3>
-                {!editMode ? 
-                <p>{item[0].quantity}</p>
-                :
-                <input type='text' id='quantity' defaultValue={item[0].quantity}></input>
-                }
-                <h3>Last edited by: </h3>
-                <p>{item[0].user_name}</p>
+                    <ItemNameInput type='text' id='itemName' rows="1" defaultValue={item[0].item_name}></ItemNameInput>
+                    }
+                    <h3>Description:</h3>
+                    {!editMode ? 
+                    <ItemInfo>{item[0].description}</ItemInfo>
+                    :
+                    <ItemInfoInput type='text' id='description' rows="4" defaultValue={item[0].description}></ItemInfoInput>
+                    }
+                    <h3>Quantity: </h3>
+                    {!editMode ? 
+                    <ItemInfo>{item[0].quantity}</ItemInfo>
+                    :
+                    <ItemInfoInput type='text' id='quantity' rows="1" defaultValue={item[0].quantity}></ItemInfoInput>
+                    }
+                    <h3>Last edited by: </h3>
+                    <ItemInfo>{item[0].user_name}</ItemInfo>
+                </InfoContainer>
                 {!editMode ? 
                 <></>
                 :
@@ -140,6 +159,7 @@ height: 100%;
 const ItemContainer = styled.div`
 display: flex;
 flex-direction: column;
+align-items: space-between;
 width: 50%;
 height: 90%;
 min-width: 400px;
@@ -151,4 +171,31 @@ const ButtonContainer = styled.div`
 display: flex;
 justify-content: flex-end;
 width: 100%;
+`
+const InfoContainer = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: space-evenly;
+width: 100%;
+height: 80%;
+`
+const ItemName = styled.span`
+font-size: xx-large;
+font-weight: 700;
+`
+const ItemNameInput = styled.textarea`
+font-family: roboto;
+font-size: xx-large;
+font-weight: 700;
+`
+const ItemInfo = styled.span`
+font-size: large;
+font-weight: 500;
+max-height: 100px;
+overflow: auto;
+`
+const ItemInfoInput = styled.textarea`
+font-family: roboto;
+font-size: large;
+font-weight: 500;
 `

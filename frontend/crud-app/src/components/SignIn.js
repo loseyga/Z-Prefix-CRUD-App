@@ -77,8 +77,8 @@ export default function SignIn() {
                         <InputLabel htmlFor="user_name">User Name</InputLabel>
                         <OutlinedInput
                         id="user_name"
-                        startAdornment={
-                            <InputAdornment position="start">
+                        endAdornment={
+                            <InputAdornment position="end">
                             <AccountCircle />
                             </InputAdornment>
                             }
@@ -121,10 +121,6 @@ const styledButton = {
     backgroundColor: "#0844f4",
 }
 
-const ErrorMessage = styled.div`
-color: red;
-margin-top: 10px;
-`
 const Title= styled.h1`
 margin: 20px;
 `

@@ -1,7 +1,7 @@
 import { useState, createContext} from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
-import { Header, Home, Inventory, Item, SignIn, SignUp } from './components';
+import { Create, Header, Home, Inventory, Item, SignIn, SignUp } from './components';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -36,6 +36,7 @@ const App = ()=> {
                     <BodyContainer>
                         <Routes>
                             <Route path='/' element={<Home />} />
+                            <Route path='/create' element={<Create />} />
                             <Route path='/inventory' element={<Inventory />} />
                             <Route path='/sign-in/*' element={<SignIn />} />
                             <Route path='/sign-up/*' element={<SignUp />} />

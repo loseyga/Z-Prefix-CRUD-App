@@ -69,6 +69,7 @@ app.post('/authenticate', (req, res) => {
 });
 
 app.post('/items', function(req, res) {
+    console.log(req.body);
     const { user_account_id, item_name, description, quantity } = req.body;
     knex('item')
         .insert({ user_account_id, item_name, description, quantity })
