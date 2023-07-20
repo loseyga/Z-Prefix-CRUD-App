@@ -47,7 +47,7 @@ flex-direction: column;
 justify-content: space-evenly;
 background-color: white;
 height: 75%;
-width: 35%;
+width: 40%;
 min-width: 400px;
 padding: 10px;
 border-radius: 10px;

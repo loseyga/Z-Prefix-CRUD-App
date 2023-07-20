@@ -131,7 +131,7 @@ export default function Item() {
                     :
                     <ItemInfoInput type='text' id='quantity' rows="1" defaultValue={item[0].quantity}></ItemInfoInput>
                     }
-                    <h3>Last edited by: </h3>
+                    <h3>Created by: </h3>
                     <ItemInfo>{item[0].user_name}</ItemInfo>
                 </InfoContainer>
                 {!editMode ? 

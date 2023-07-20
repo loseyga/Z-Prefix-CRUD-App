@@ -6,7 +6,7 @@ import { AppContext } from '../App'
 import { Button } from '@mui/material';
 
 export default function Create() {
-    const { user, firstName, lastName } = useContext(AppContext);
+    const { user } = useContext(AppContext);
     const navigate = useNavigate();
 
     const handleSubmitChanges = () => {

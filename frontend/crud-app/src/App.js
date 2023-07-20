@@ -25,8 +25,6 @@ const App = ()=> {
                             testStr: `I'm using context!`
                           }
     
-    console.log(ContextObject);
-    
     return(
         <>
         <AppWrapper id="App">

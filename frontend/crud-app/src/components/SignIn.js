@@ -9,12 +9,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Button, OutlinedInput, FormControl, InputLabel, IconButton, InputAdornment } from '@mui/material';
 
 export default function SignIn() {
-    const { 
-        user, setUser,
-        isVerified, setIsVerified,
-        firstName, setFirstName,
-        lastName, setLastName
-    } = useContext(AppContext);
+    const { setUser, setIsVerified, setFirstName, setLastName } = useContext(AppContext);
     const navigate = useNavigate();
     
     const [showPassword, setShowPassword] = useState(false);
@@ -52,7 +47,6 @@ export default function SignIn() {
             }
         })
         .then(data => {
-            console.log('data: ', data)
             setFirstName(data[0].first_name);
             setLastName(data[0].last_name);
             setUser(Number(data[0].id));
