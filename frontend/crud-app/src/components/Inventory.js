@@ -15,6 +15,7 @@ export default function Inventory() {
 
     const [inventory, setInventory] = useState([]);
     const [myInventory, setMyInventory] = useState([]);
+    const [selectedInventory, setSelectedInventory] = useState([]);
     const [results, setResults] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [alignment, setAlignment] = useState('myInventory');
@@ -66,14 +67,14 @@ export default function Inventory() {
 
     const setInventoryResults = () => {
         if (alignment === 'myInventory') {
-            setResults(myInventory);
+            setSelectedInventory(myInventory);
         } else {
-            setResults(inventory);
+            setSelectedInventory(inventory);
         }
     };
 
     const searchInventory = () => {
-        let searchResults = [...results];
+        let searchResults = [...selectedInventory];
         if (searchTerm) {
         searchResults = searchResults.filter(item => item.item_name.toLowerCase().includes(searchTerm.toLowerCase()));
         }
