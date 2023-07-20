@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  frontend:
+    build: ./frontend/crud-app
+    container_name: frontend
+    ports: 
+      - 3000:3000
+    networks:
+      - app-network 
+    depends_on:
+      - server
+
+  server: 
+    build: ./backend
+    container_name: server
+    ports: 
+      - 3001:3001
+    networks:
+      - app-network
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    container_name: db
+    ports: 
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: db
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

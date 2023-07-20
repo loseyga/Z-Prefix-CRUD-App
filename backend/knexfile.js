@@ -2,7 +2,7 @@ module.exports = {
 
   development: {
     client: "pg",
-    connection: "postgres://postgres:docker@localhost:5432/db"
+    connection: "postgres://postgres:docker@db:5432/db"
   },
 
   staging: {

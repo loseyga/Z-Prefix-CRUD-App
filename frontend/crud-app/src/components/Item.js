@@ -134,7 +134,7 @@ export default function Item() {
                     {!editMode ? 
                     <ItemInfo>{item[0].quantity}</ItemInfo>
                     :
-                    <ItemInfoInput type='text' id='quantity' rows="1" defaultValue={item[0].quantity}></ItemInfoInput>
+                    <ItemQuantityInput type='number' id='quantity' defaultValue={item[0].quantity}></ItemQuantityInput>
                     }
                     <h3>Created by: </h3>
                     <ItemInfo>{item[0].user_name}</ItemInfo>
@@ -200,6 +200,11 @@ max-height: 100px;
 overflow: auto;
 `
 const ItemInfoInput = styled.textarea`
+font-family: roboto;
+font-size: large;
+font-weight: 500;
+`
+const ItemQuantityInput = styled.input`
 font-family: roboto;
 font-size: large;
 font-weight: 500;

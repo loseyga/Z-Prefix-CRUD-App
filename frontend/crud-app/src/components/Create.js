@@ -48,7 +48,7 @@ export default function Create() {
                     <h3>Description:</h3>
                     <ItemInfoInput type='text' id='description' rows="4" placeholder='Enter item description'></ItemInfoInput>
                     <h3>Quantity:</h3>
-                    <ItemInfoInput type='text' id='quantity' rows="1" placeholder='Enter item quantity'></ItemInfoInput>
+                    <ItemQuantityInput type='number' id='quantity' placeholder='Enter item quantity'></ItemQuantityInput>
                 </InfoContainer>
                 <Button id="submitChangesButton" style={styledButton} variant="contained" onClick={handleSubmitChanges}>Create Item</Button>
             </ItemContainer>
@@ -96,9 +96,8 @@ font-family: roboto;
 font-size: large;
 font-weight: 500;
 `
-const ItemInfo = styled.span`
+const ItemQuantityInput = styled.input`
+font-family: roboto;
 font-size: large;
 font-weight: 500;
-max-height: 100px;
-overflow: auto;
 `
