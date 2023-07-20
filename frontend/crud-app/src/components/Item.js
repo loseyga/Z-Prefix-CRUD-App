@@ -33,6 +33,22 @@ export default function Item() {
         setEditMode(true);
     }
 
+    const handleClickDelete = async () => {
+        try {
+            const response = await fetch(`http://localhost:3001/items/${item_id}`, {
+                method: "DELETE"
+            });
+            if (response.ok) {
+                navigate('/inventory');
+            } else {
+                const data = await response.json();
+                throw new Error(data.error);
+            }
+        } catch (err) {
+            window.alert(err.message);
+        }
+    }
+
     const handleSubmitChanges = () => {
         let itemName = document.getElementById('itemName').value;
         let description = document.getElementById('description').value;
@@ -48,16 +64,16 @@ export default function Item() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ "user_account_id": user, "item_name": itemName, "description": description, "quantity": quantity })
         })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                return res.json().then(data => { throw new Error(data.error) });
-            }
-        })
-        .catch(err => {
-            window.alert(err.message);
-        });
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    return res.json().then(data => { throw new Error(data.error) });
+                }
+            })
+            .catch(err => {
+                window.alert(err.message);
+            });
     }
     
 
@@ -73,7 +89,7 @@ export default function Item() {
                         <IconButton aria-label="Edit" onClick={handleEdit}>
                             <EditIcon />
                         </IconButton>
-                        <IconButton aria-label="Delete">
+                        <IconButton aria-label="Delete" onClick={handleClickDelete}>
                             <DeleteIcon />
                         </IconButton>
                     </ButtonContainer>
