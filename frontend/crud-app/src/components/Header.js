@@ -7,15 +7,16 @@ import { Button } from '@mui/material';
 import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
 
 export default function Header() {
-    const { isVerified, setIsVerified, firstName, setUser, setFirstName, setLastName } = useContext(AppContext);
+    const { isVerified, setIsVerified, firstName, setUser, setFirstName, setLastName, setUserName } = useContext(AppContext);
     const navigate = useNavigate();
 
     function handleClickSignOut(){
         setIsVerified(false);
         navigate("/");
         setUser('');
-        setFirstName('')
-        setLastName('')
+        setFirstName('');
+        setLastName('');
+        setUserName('');
         alert('You are logged out');
     }
 
