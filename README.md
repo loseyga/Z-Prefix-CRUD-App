@@ -7,7 +7,7 @@ StockSense is an intuitive and user-friendly inventory management app designed t
 2. [User Stories](#user-stories)
 3. [Features](#features)
 4. [Usage](#usage)
-5. [Screen-Shots] (#screen-shots)
+5. [Screen-Shots](#screen-shots)
 6. [Technologies Used](#technologies-used)
 7. [Contact](#contact)
 
