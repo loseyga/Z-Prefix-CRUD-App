@@ -34,7 +34,7 @@ export default function Inventory() {
 
     useEffect(() => {
         setInventoryResults();
-    }, [alignment]);
+    }, [ alignment ]);
 
     const fetchInventory = async () => {
         try {
@@ -53,11 +53,13 @@ export default function Inventory() {
                 const data = await response.json();
                 setMyInventory(data);
                 setResults(data);
+                setSelectedInventory(data);
             } catch (error) {
                 console.error('Error fetching inventory', error);
             }
         } else {
             setResults(inventory);
+            setSelectedInventory(inventory);
         }
     };
 
@@ -76,7 +78,7 @@ export default function Inventory() {
     const searchInventory = () => {
         let searchResults = [...selectedInventory];
         if (searchTerm) {
-        searchResults = searchResults.filter(item => item.item_name.toLowerCase().includes(searchTerm.toLowerCase()));
+            searchResults = searchResults.filter(item => item.item_name.toLowerCase().includes(searchTerm.toLowerCase()));
         }
         setResults(searchResults);
     };
